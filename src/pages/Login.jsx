@@ -101,7 +101,7 @@ const Login = () => {
             {/* Gradients */}
 
             <div className="w-96 py-20 gap-10 shadow-2xl rounded-3xl bg-white flex items-center flex-col justify-around">
-                <h2 className="text-4xl font-bold">LOGIN</h2>
+                <h2 className="text-4xl font-bold">Welcome back!</h2>
                 <form className="gap-5 flex flex-col w-full px-10" onSubmit={handleSubmit}>
                     <input
                         className="py-3 bg-transparent border-b border-gray-600 outline-none"
