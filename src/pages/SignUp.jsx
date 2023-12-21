@@ -59,44 +59,53 @@ const SignUp = () => {
     };
 
     return (
-        <div className="form_container">
-            <h2>Signup Account</h2>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor="email">Email</label>
+        <div className="w-full h-screen overflow-hidden flex items-center justify-center">
+            {/* Gradients */}
+
+            <div className="absolute -z-10 h-[50rem] w-[50rem] -top-72 blur-[10rem] -left-72 rounded-full bg-[#ffc3c3] "></div>
+
+            <div className="absolute -z-10 h-[50rem] w-[50rem] blur-[10rem] -bottom-72 -right-72 rounded-full bg-[#FFE4C4] "></div>
+
+            {/* Gradients */}
+
+            <div className="w-96 py-20 gap-10 shadow-2xl rounded-3xl bg-white flex items-center flex-col justify-around">
+                <h2 className="text-4xl font-bold">Create Account</h2>
+                <form className="gap-5 flex flex-col w-full px-10" onSubmit={handleSubmit}>
                     <input
+                        className="py-3 bg-transparent border-b border-gray-600 outline-none"
                         type="email"
                         name="email"
                         value={email}
                         placeholder="Enter your email"
                         onChange={handleOnChange}
                     />
-                </div>
-                <div>
-                    <label htmlFor="email">Username</label>
                     <input
+                        className="py-3 bg-transparent border-b border-gray-600 outline-none"
                         type="text"
                         name="username"
                         value={username}
                         placeholder="Enter your username"
                         onChange={handleOnChange}
                     />
-                </div>
-                <div>
-                    <label htmlFor="password">Password</label>
                     <input
+                        className="py-3 bg-transparent border-b border-gray-600 outline-none"
                         type="password"
                         name="password"
                         value={password}
                         placeholder="Enter your password"
                         onChange={handleOnChange}
                     />
-                </div>
-                <button type="submit">Submit</button>
-                <span>
-                    Already have an account? <Link to={"/login"}>Login</Link>
-                </span>
-            </form>
+                    <button
+                        className="w-full rounded-full bg-gradient-to-r from-red-400 to-yellow-400 text-white font-extrabold drop-shadow-xl py-2"
+                        type="submit"
+                    >
+                        Signup
+                    </button>
+                    <span>
+                        Already have an account? <Link to={"/login"}>Login</Link>
+                    </span>
+                </form>
+            </div>
             <ToastContainer />
         </div>
     );
