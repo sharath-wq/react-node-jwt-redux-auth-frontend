@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+import { Toaster, toast } from "react-hot-toast";
 import { useCookies } from "react-cookie";
 import axios from "axios";
 
@@ -40,6 +40,7 @@ const Home = () => {
 
                 <button onClick={Logout}>Logout</button>
             </div>
+            <Toaster />
         </>
     );
 };
