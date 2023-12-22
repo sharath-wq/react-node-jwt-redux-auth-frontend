@@ -4,9 +4,12 @@ import axios from "axios";
 import { Toaster, toast } from "react-hot-toast";
 import Gradient from "../components/gradients/Gradient";
 import Input from "../components/login/Inputs";
+import { useDispatch } from "react-redux";
+import { setUser } from "../features/user/userSlice";
 
 const SignUp = () => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const [inputValue, setInputValue] = useState({
         email: "",
         password: "",
@@ -118,6 +121,13 @@ const SignUp = () => {
                 );
                 const { success, message } = data;
                 if (success) {
+                    dispatch(
+                        setUser({
+                            username: data.user.username,
+                            isAdmin: data.user.isAdmin,
+                            accessToken: data.accessToken,
+                        })
+                    );
                     toast.success(message);
                     setTimeout(() => {
                         navigate("/", { replace: true });

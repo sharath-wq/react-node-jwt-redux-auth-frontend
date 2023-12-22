@@ -4,31 +4,79 @@ import { Toaster, toast } from "react-hot-toast";
 import { useCookies } from "react-cookie";
 import axios from "axios";
 import Gradient from "../components/gradients/Gradient";
+import { useSelector, useDispatch } from "react-redux";
+import { clearUser, setAccessToken, setUser } from "../features/user/userSlice";
 
 const Home = () => {
     const navigate = useNavigate();
     const [cookies, removeCookie] = useCookies([]);
     const [username, setUsername] = useState("");
+    const dispatch = useDispatch();
+
+    const accessToken = useSelector((state) => state.userReducer.accessToken);
 
     useEffect(() => {
-        const verifyCookie = async () => {
-            if (!cookies.token) {
+        const verifyAccessToken = async (token) => {
+            const headers = {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+            };
+
+            try {
+                const { data } = await axios.get("http://localhost:4000", {
+                    headers: headers,
+                });
+
+                return data.status;
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        const generateAccessToken = async (token) => {
+            try {
+                const { data } = await axios.post("http://localhost:4000/refresh", {}, { withCredentials: true });
+                console.log(data);
+
+                if (data.status) {
+                    return data.accessToken;
+                } else {
+                    removeCookie("accessToken");
+                    navigate("/login");
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        const validateUser = async () => {
+            if (accessToken) {
+                const isValid = await verifyAccessToken(accessToken);
+
+                if (!isValid) {
+                    if (!cookies.refreshToken) {
+                        navigate("/login");
+                    }
+
+                    const newAccessToken = await generateAccessToken(cookies.refreshToken);
+                    const isValidNew = verifyAccessToken(newAccessToken);
+                    if (!isValidNew) {
+                        navigate("/login");
+                    }
+
+                    dispatch(setAccessToken({ accessToken: newAccessToken }));
+                }
+            } else {
                 navigate("/login");
             }
-            const { data } = await axios.post("http://localhost:4000", {}, { withCredentials: true });
-            const { status, user } = data;
-            setUsername(user);
-            return status
-                ? toast(`Hello ${user}`, {
-                      position: "top-right",
-                  })
-                : (removeCookie("token"), navigate("/login"));
         };
-        verifyCookie();
-    }, [cookies, navigate, removeCookie]);
+
+        validateUser();
+    }, [accessToken, cookies, navigate, removeCookie, dispatch]);
 
     const Logout = () => {
-        removeCookie("token");
+        removeCookie("refreshToken");
+        dispatch(clearUser());
         navigate("/login", { replace: true });
     };
 
