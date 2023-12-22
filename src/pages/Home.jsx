@@ -27,6 +27,8 @@ const Home = () => {
                     headers: headers,
                 });
 
+                setUsername(data.username);
+
                 return data.status;
             } catch (error) {
                 console.error(error);
@@ -36,9 +38,8 @@ const Home = () => {
         const generateAccessToken = async (token) => {
             try {
                 const { data } = await axios.post("http://localhost:4000/refresh", {}, { withCredentials: true });
-                console.log(data);
 
-                if (data.status) {
+                if (data.success) {
                     return data.accessToken;
                 } else {
                     removeCookie("accessToken");
@@ -86,7 +87,8 @@ const Home = () => {
             <Gradient color={"bg-[#91d3ff]"} positon={"-bottom-72 -left-72"} />
 
             <div className="w-96 py-20 gap-10 shadow-2xl rounded-3xl bg-white flex items-center flex-col justify-around">
-                <h2 className="text-4xl font-bold">Welcome back! {username}</h2>
+                <h2 className="px-10 text-4xl font-bold">Welcome back!</h2>
+                <span className="px-10 text-2xl font-bold">{username}</span>
 
                 <button
                     onClick={Logout}
