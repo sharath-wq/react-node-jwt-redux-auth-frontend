@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Toaster, toast } from "react-hot-toast";
+import Gradient from "../components/gradients/Gradient";
 
 const Login = () => {
     const navigate = useNavigate();
@@ -75,7 +76,7 @@ const Login = () => {
                 if (success) {
                     toast.success(message);
                     setTimeout(() => {
-                        navigate("/");
+                        navigate("/", { replace: true });
                     }, 1000);
                 } else {
                     toast.error(message);
@@ -94,11 +95,8 @@ const Login = () => {
 
     return (
         <div className="w-full h-screen relative overflow-hidden flex items-center justify-center">
-            {/* Gradients */}
-            <div className="absolute -z-10 h-[50rem] w-[50rem] -top-72 blur-[10rem] -right-72 rounded-full bg-[#ADD8E6] "></div>
-
-            <div className="absolute -z-10 h-[50rem] w-[50rem] blur-[10rem] -bottom-72 -left-72 rounded-full bg-[#f9ddeb] "></div>
-            {/* Gradients */}
+            <Gradient color={"bg-[#ADD8E6]"} positon={"-top-72 -right-72"} />
+            <Gradient color={"bg-[#f9ddeb]"} positon={"-bottom-72 -left-72"} />
 
             <div className="w-96 py-20 gap-10 shadow-2xl rounded-3xl bg-white flex items-center flex-col justify-around">
                 <h2 className="text-4xl font-bold">Welcome back!</h2>

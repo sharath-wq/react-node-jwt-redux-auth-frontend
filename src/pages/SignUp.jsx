@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Toaster, toast } from "react-hot-toast";
+import Gradient from "../components/gradients/Gradient";
+import Input from "../components/login/Inputs";
 
 const SignUp = () => {
     const navigate = useNavigate();
@@ -118,7 +120,7 @@ const SignUp = () => {
                 if (success) {
                     toast.success(message);
                     setTimeout(() => {
-                        navigate("/");
+                        navigate("/", { replace: true });
                     }, 1000);
                 } else {
                     toast.error(message);
@@ -136,39 +138,33 @@ const SignUp = () => {
 
     return (
         <div className="w-full relative h-screen overflow-hidden flex items-center justify-center">
-            {/* Gradients */}
+            <Gradient color={"bg-[#ffc3c3]"} positon={"-top-72 -left-72"} />
+            <Gradient color={"bg-[#FFE4C4]"} positon={"-bottom-72 -right-72"} />
 
-            <div className="absolute -z-10 h-[50rem] w-[50rem] -top-72 blur-[10rem] -left-72 rounded-full bg-[#ffc3c3] "></div>
-
-            <div className="absolute -z-10 h-[50rem] w-[50rem] blur-[10rem] -bottom-72 -right-72 rounded-full bg-[#FFE4C4] "></div>
-            {/* ... Rest of your code remains unchanged ... */}
             <div className="w-96 py-20 gap-10 shadow-2xl rounded-3xl bg-white flex items-center flex-col justify-around">
                 <h2 className="text-4xl font-bold">Create Account</h2>
                 <form className="gap-5 flex flex-col w-full px-10" onSubmit={handleSubmit}>
-                    <input
-                        className="pb-3 bg-transparent border-b border-gray-600 outline-none"
-                        type="email"
-                        name="email"
+                    <Input
+                        type={"email"}
+                        name={"email"}
                         value={email}
-                        placeholder="Enter your email"
+                        placeholder={"Enter Your Email"}
                         onChange={handleOnChange}
                     />
                     <p className="mt-0.5 visible text-sm text-red-600 ">{inputErrors.email}</p>
-                    <input
-                        className="pb-3 bg-transparent border-b border-gray-600 outline-none"
-                        type="text"
-                        name="username"
+                    <Input
+                        type={"text"}
+                        name={"username"}
                         value={username}
-                        placeholder="Enter your username"
+                        placeholder={"Enter Your Username"}
                         onChange={handleOnChange}
                     />
                     <p className="mt-0.5 visible text-sm text-red-600 dark:text-red-500">{inputErrors.username}</p>
-                    <input
-                        className="pb-3 bg-transparent border-b border-gray-600 outline-none"
-                        type="password"
-                        name="password"
+                    <Input
+                        type={"password"}
+                        name={"password"}
                         value={password}
-                        placeholder="Enter your password"
+                        placeholder={"Enter Your Password"}
                         onChange={handleOnChange}
                     />
                     <p className="mt-0.5 visible text-sm text-red-600 dark:text-red-500">{inputErrors.password}</p>
