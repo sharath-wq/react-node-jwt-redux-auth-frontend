@@ -1,14 +1,14 @@
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 
-const IsLoggedIn = ({ children }) => {
-    const user = useSelector((state) => state.userReducer.user);
+const AdminRoute = ({ children }) => {
+    const isAdmin = useSelector((state) => state.userReducer.user.isAdmin);
 
-    if (user) {
+    if (!isAdmin) {
         return <Navigate to="/" replace />;
     }
 
     return children;
 };
 
-export default IsLoggedIn;
+export default AdminRoute;

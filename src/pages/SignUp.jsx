@@ -123,8 +123,7 @@ const SignUp = () => {
                 if (success) {
                     dispatch(
                         setUser({
-                            username: data.user.username,
-                            isAdmin: data.user.isAdmin,
+                            user: data.user,
                             accessToken: data.accessToken,
                         })
                     );

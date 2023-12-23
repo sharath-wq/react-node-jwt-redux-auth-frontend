@@ -4,8 +4,7 @@ const storedUser = JSON.parse(localStorage.getItem("user"));
 const storedAccessToken = localStorage.getItem("accessToken");
 
 const initialState = {
-    username: (storedUser && storedUser.username) || null,
-    isAdmin: (storedUser && storedUser.isAdmin) || false,
+    user: storedUser || null,
     accessToken: storedAccessToken || null,
 };
 
@@ -14,22 +13,19 @@ const userSlice = createSlice({
     initialState,
     reducers: {
         setUser: (state, action) => {
-            state.username = action.payload.username;
-            state.isAdmin = action.payload.isAdmin;
             state.accessToken = action.payload.accessToken;
+            state.user = action.payload.user;
 
             localStorage.setItem(
                 "user",
                 JSON.stringify({
-                    username: action.payload.username,
-                    isAdmin: action.payload.isAdmin,
+                    user: { ...action.payload.user },
                 })
             );
             localStorage.setItem("accessToken", action.payload.accessToken);
         },
         clearUser: (state) => {
-            state.username = null;
-            state.isAdmin = false;
+            state.user = null;
             state.accessToken = null;
 
             localStorage.removeItem("user");

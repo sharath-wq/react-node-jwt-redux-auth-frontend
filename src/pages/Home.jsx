@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { Toaster, toast } from "react-hot-toast";
 import { useCookies } from "react-cookie";
 import axios from "axios";
@@ -10,10 +10,12 @@ import { clearUser, setAccessToken, setUser } from "../features/user/userSlice";
 const Home = () => {
     const navigate = useNavigate();
     const [cookies, removeCookie] = useCookies([]);
-    const [username, setUsername] = useState("");
+    // const [localUser, setLocalUser] = useState(useSelector((state) => state.userReducer.user));
     const dispatch = useDispatch();
 
     const accessToken = useSelector((state) => state.userReducer.accessToken);
+    const isAdmin = useSelector((state) => state.userReducer.user.isAdmin);
+    const username = useSelector((state) => state.userReducer.user.username);
 
     useEffect(() => {
         const verifyAccessToken = async (token) => {
@@ -27,7 +29,7 @@ const Home = () => {
                     headers: headers,
                 });
 
-                setUsername(data.username);
+                setUser(data.user);
 
                 return data.status;
             } catch (error) {
@@ -43,7 +45,7 @@ const Home = () => {
                     return data.accessToken;
                 } else {
                     removeCookie("accessToken");
-                    navigate("/login");
+                    // navigate("/login");
                 }
             } catch (error) {
                 console.log(error);
@@ -56,24 +58,24 @@ const Home = () => {
 
                 if (!isValid) {
                     if (!cookies.refreshToken) {
-                        navigate("/login");
+                        // navigate("/login");
                     }
 
                     const newAccessToken = await generateAccessToken(cookies.refreshToken);
                     const isValidNew = verifyAccessToken(newAccessToken);
                     if (!isValidNew) {
-                        navigate("/login");
+                        // navigate("/login");
                     }
 
                     dispatch(setAccessToken({ accessToken: newAccessToken }));
                 }
             } else {
-                navigate("/login");
+                // navigate("/login");
             }
         };
 
         validateUser();
-    }, [accessToken, cookies, navigate, removeCookie, dispatch]);
+    }, []);
 
     const Logout = () => {
         removeCookie("refreshToken");
@@ -88,8 +90,17 @@ const Home = () => {
 
             <div className="w-96 py-20 gap-10 shadow-2xl rounded-3xl bg-white flex items-center flex-col justify-around">
                 <h2 className="px-10 text-4xl font-bold">Welcome back!</h2>
-                <span className="px-10 text-2xl font-bold">{username}</span>
+                <span className="px-10 text-2xl font-bold">{isAdmin ? "ADMIN" : username}</span>
 
+                {isAdmin ? (
+                    <Link className="px-10 border rounded-full py-2 font-bold" to={"/admin"}>
+                        Go to Dashboard
+                    </Link>
+                ) : (
+                    <Link className="px-10 border rounded-full py-2 font-bold" to={"/profile"}>
+                        Go to Profile
+                    </Link>
+                )}
                 <button
                     onClick={Logout}
                     className="px-10 rounded-full bg-gradient-to-r from-[#CF77F3] to-[#009BFF] text-white font-extrabold drop-shadow-xl py-2"
