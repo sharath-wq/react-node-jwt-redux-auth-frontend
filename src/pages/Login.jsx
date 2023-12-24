@@ -4,7 +4,7 @@ import axios from "axios";
 import { Toaster, toast } from "react-hot-toast";
 import Gradient from "../components/gradients/Gradient";
 import { useDispatch } from "react-redux";
-import { setUser } from "../features/user/userSlice";
+import { setAccessToken, setUser } from "../features/user/userSlice";
 
 const Login = () => {
     const navigate = useNavigate();
@@ -80,6 +80,11 @@ const Login = () => {
                     dispatch(
                         setUser({
                             user: data.user,
+                        })
+                    );
+
+                    dispatch(
+                        setAccessToken({
                             accessToken: data.accessToken,
                         })
                     );

@@ -13,7 +13,6 @@ const userSlice = createSlice({
     initialState,
     reducers: {
         setUser: (state, action) => {
-            state.accessToken = action?.payload?.accessToken;
             state.user = action.payload.user;
 
             localStorage.setItem(
@@ -24,6 +23,10 @@ const userSlice = createSlice({
             );
             localStorage.setItem("accessToken", action?.payload?.accessToken);
         },
+        setAccessToken: (state, action) => {
+            state.accessToken = action.payload.accessToken;
+            localStorage.setItem("accessToken", action.payload.accessToken);
+        },
         clearUser: (state) => {
             state.user = null;
             state.accessToken = null;
@@ -31,13 +34,12 @@ const userSlice = createSlice({
             localStorage.removeItem("user");
             localStorage.removeItem("accessToken");
         },
-        setAccessToken: (state, action) => {
-            state.accessToken = action.payload.accessToken;
-            localStorage.setItem("accessToken", action.payload.accessToken);
+        clearAccessToken: (state) => {
+            (state.accessToken = null), localStorage.removeItem("accessToken");
         },
     },
 });
 
-export const { setUser, clearUser, setAccessToken } = userSlice.actions;
+export const { setUser, clearUser, setAccessToken, clearAccessToken } = userSlice.actions;
 
 export default userSlice.reducer;

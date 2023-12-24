@@ -5,7 +5,7 @@ import { useCookies } from "react-cookie";
 import axios from "axios";
 import Gradient from "../components/gradients/Gradient";
 import { useSelector, useDispatch } from "react-redux";
-import { clearUser, setAccessToken, setUser } from "../features/user/userSlice";
+import { clearAccessToken, clearUser, setAccessToken, setUser } from "../features/user/userSlice";
 
 const Home = () => {
     const navigate = useNavigate();
@@ -80,6 +80,7 @@ const Home = () => {
     const Logout = () => {
         removeCookie("refreshToken");
         dispatch(clearUser());
+        dispatch(clearAccessToken());
         navigate("/login", { replace: true });
     };
 

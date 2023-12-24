@@ -3,14 +3,17 @@ import Gradient from "../components/gradients/Gradient";
 import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
+import { setUser } from "../features/user/userSlice";
 
 const Profile = () => {
     const [image, setImage] = useState();
     const [previewImageUrl, setpreviewImageUrl] = useState(null);
     const [imageUrl, setImageUrl] = useState();
-    const [username, setUsename] = useState();
+    const [username, setUsername] = useState();
     const [email, setEmail] = useState();
     const fileInput = useRef(null);
+
+    const dispatch = useDispatch();
 
     const token = useSelector((state) => state.userReducer.accessToken);
 
@@ -21,22 +24,20 @@ const Profile = () => {
     };
 
     useEffect(() => {
-        console.log("fetching");
         const fetchUser = async () => {
             const response = await axios.get(`http://localhost:4000/profile/${_id}`);
 
             if (response.statusText === "OK") {
                 const { username, email, imageUrl } = response.data.user;
-                console.log(username, email, imageUrl);
 
                 setImageUrl(imageUrl);
                 setEmail(email);
-                setUsename(username);
+                setUsername(username);
             }
         };
 
         fetchUser();
-    }, [username, imageUrl, email]);
+    }, [imageUrl, email]);
 
     useEffect(() => {
         if (!image) return;
@@ -71,22 +72,63 @@ const Profile = () => {
         }
     };
 
+    const handleChange = (e) => {
+        setUsername(e.target.value);
+    };
+
+    const handleBlur = async () => {
+        try {
+            const response = await axios.post(
+                `http://localhost:4000/update/${_id}`,
+                {
+                    username,
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            dispatch(setUser({ user: response.data.user }));
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     return (
         <>
             <div className="w-full h-screen relative overflow-hidden flex items-center justify-center">
                 <Gradient color={"bg-[#B0E0E6]"} position={"top-0 left-0"} />
                 <Gradient color={"bg-[#FFDAB9]"} position={"bottom-0 right-0"} />
 
-                <div className="w-96 py-20 px-10 gap-5 px shadow-2xl rounded-3xl bg-white flex items-center flex-col justify-around">
+                <div className="w-96 py-20 px-10 gap-2 px shadow-2xl rounded-3xl bg-white flex items-center flex-col justify-around">
                     <h2 className="px-10 text-3xl font-bold">USER DETAILS</h2>
 
                     <img
-                        className="w-52 rounded-full shadow-2xl object-cover"
+                        className="w-52 rounded-full shadow-2xl object-cover mt-2"
                         src={`${previewImageUrl ? previewImageUrl : imageUrl}`}
                         alt=""
                     />
 
+                    <input
+                        className="py-3 bg-transparent border-none text-center text-2xl font-bold outline-none"
+                        type="email"
+                        name="email"
+                        value={username}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                    />
+
+                    <input
+                        className="py-3 bg-transparent border-none text-center text-xl font-normal outline-none"
+                        type="email"
+                        name="email"
+                        value={email}
+                    />
+
                     <input ref={fileInput} className="invisible" type="file" accept="image/*" onChange={onImageChange} />
+
                     {previewImageUrl ? (
                         <button
                             className="w-full rounded-full bg-gradient-to-r from-[#E8B291] to-[#70A9B5] text-white font-extrabold drop-shadow-xl py-2 cursor-pointer"

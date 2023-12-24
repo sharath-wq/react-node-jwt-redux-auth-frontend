@@ -5,7 +5,7 @@ import { Toaster, toast } from "react-hot-toast";
 import Gradient from "../components/gradients/Gradient";
 import Input from "../components/login/Inputs";
 import { useDispatch } from "react-redux";
-import { setUser } from "../features/user/userSlice";
+import { setUser, setAccessToken } from "../features/user/userSlice";
 
 const SignUp = () => {
     const navigate = useNavigate();
@@ -124,6 +124,12 @@ const SignUp = () => {
                     dispatch(
                         setUser({
                             user: data.user,
+                            accessToken: data.accessToken,
+                        })
+                    );
+
+                    dispatch(
+                        setAccessToken({
                             accessToken: data.accessToken,
                         })
                     );
