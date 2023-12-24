@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Toaster, toast } from "react-hot-toast";
 import { useCookies } from "react-cookie";
@@ -97,7 +97,7 @@ const Home = () => {
                         Go to Dashboard
                     </Link>
                 ) : (
-                    <Link className="px-10 border rounded-full py-2 font-bold" to={"/profile"}>
+                    <Link className="px-10 border rounded-full py-2 font-bold" to={`profile/`}>
                         Go to Profile
                     </Link>
                 )}

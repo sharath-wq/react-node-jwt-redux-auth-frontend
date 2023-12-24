@@ -13,7 +13,7 @@ const userSlice = createSlice({
     initialState,
     reducers: {
         setUser: (state, action) => {
-            state.accessToken = action.payload.accessToken;
+            state.accessToken = action?.payload?.accessToken;
             state.user = action.payload.user;
 
             localStorage.setItem(
@@ -22,7 +22,7 @@ const userSlice = createSlice({
                     user: { ...action.payload.user },
                 })
             );
-            localStorage.setItem("accessToken", action.payload.accessToken);
+            localStorage.setItem("accessToken", action?.payload?.accessToken);
         },
         clearUser: (state) => {
             state.user = null;
