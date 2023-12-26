@@ -4,6 +4,8 @@ import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { setUser } from "../features/user/userSlice";
+import { IoArrowBack } from "react-icons/io5";
+import { Link } from "react-router-dom";
 
 const Profile = () => {
     const [image, setImage] = useState();
@@ -102,7 +104,11 @@ const Profile = () => {
                 <Gradient color={"bg-[#B0E0E6]"} position={"top-0 left-0"} />
                 <Gradient color={"bg-[#FFDAB9]"} position={"bottom-0 right-0"} />
 
-                <div className="w-96 py-20 px-10 gap-2 px shadow-2xl rounded-3xl bg-white flex items-center flex-col justify-around">
+                <div className="w-96 py-20 px-10 gap-2 px shadow-2xl rounded-3xl bg-white flex items-center flex-col justify-around relative">
+                    <Link to="/">
+                        <IoArrowBack className="absolute top-6 left-5 text-gray-500 text-2xl" />
+                    </Link>
+
                     <h2 className="px-10 text-3xl font-bold">USER DETAILS</h2>
 
                     <img

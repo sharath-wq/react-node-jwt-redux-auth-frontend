@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 
 const AdminRoute = ({ children }) => {
-    const isAdmin = useSelector((state) => state.userReducer.user.isAdmin);
+    const isAdmin = useSelector((state) => state?.userReducer?.user?.isAdmin);
 
     if (!isAdmin) {
         return <Navigate to="/" replace />;
