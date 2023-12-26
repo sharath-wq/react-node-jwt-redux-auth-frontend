@@ -95,13 +95,13 @@ const Dashboard = () => {
                         <input
                             type="search"
                             id="default-search"
-                            class="block w-full p-4 ps-5 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:outline-none "
+                            className="block w-full p-4 ps-5 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:outline-none "
                             placeholder="Search Users"
                             required
                         />
                         <button
                             type="submit"
-                            class="text-white absolute end-2.5 bottom-2.5 bg-gray-800  font-medium rounded-lg text-sm px-4 py-2 "
+                            className="text-white absolute end-2.5 bottom-2.5 bg-gray-800  font-medium rounded-lg text-sm px-4 py-2 "
                         >
                             Search
                         </button>
@@ -132,7 +132,7 @@ const Dashboard = () => {
                             <tbody>
                                 {users?.length ? (
                                     users.map((user) => (
-                                        <tr className="bg-white border-b ">
+                                        <tr key={user._id} className="bg-white border-b ">
                                             <th
                                                 scope="row"
                                                 className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap "
@@ -149,9 +149,12 @@ const Dashboard = () => {
                                                 >
                                                     View
                                                 </Link>
-                                                <a href="#" className="font-medium text-blue-600 hover:underline ml-3">
+                                                <Link
+                                                    to={`/admin/user/${user?._id}/edit`}
+                                                    className="font-medium text-blue-600 hover:underline ml-3"
+                                                >
                                                     Edit
-                                                </a>
+                                                </Link>
                                                 <button
                                                     data-modal-target="popup-modal"
                                                     data-modal-toggle="popup-modal"
