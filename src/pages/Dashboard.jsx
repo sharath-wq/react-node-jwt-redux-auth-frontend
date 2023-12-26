@@ -12,23 +12,24 @@ const Dashboard = () => {
     const [userId, setUserId] = useState(null);
     const [page, setPage] = useState(1);
     const [pageInfo, setPageInfo] = useState();
+    const [searchTerm, setSearchTerm] = useState("");
+
+    const fetchUsers = async () => {
+        setIsFetching(true);
+        try {
+            const response = await axios.get(`http://localhost:4000/users?page=${page}&search=${searchTerm}`);
+            setUsers(response.data.users);
+            setPageInfo(response.data.pageInfo);
+            setIsFetching(false);
+        } catch (error) {
+            setIsFetching(false);
+            console.error(error);
+        }
+    };
 
     useEffect(() => {
-        const fetchUsers = async () => {
-            setIsFetching(true);
-            try {
-                const response = await axios.get(`http://localhost:4000/users?page=${page}`);
-                setUsers(response.data.users);
-                setPageInfo(response.data.pageInfo);
-                setIsFetching(false);
-            } catch (error) {
-                setIsFetching(false);
-                console.error(error);
-            }
-        };
-
         fetchUsers();
-    }, [page]);
+    }, [page, searchTerm]);
 
     const handlePreviousClick = () => {
         if (page > 1) {
@@ -59,6 +60,7 @@ const Dashboard = () => {
                     setUsers(newUsers);
                     toast.success("User Deleted Successfully");
                     closeModal();
+                    fetchUsers();
                 } else {
                     toast.error("Can't remove user");
                     closeModal();
@@ -97,14 +99,9 @@ const Dashboard = () => {
                             id="default-search"
                             className="block w-full p-4 ps-5 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:outline-none "
                             placeholder="Search Users"
-                            required
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
                         />
-                        <button
-                            type="submit"
-                            className="text-white absolute end-2.5 bottom-2.5 bg-gray-800  font-medium rounded-lg text-sm px-4 py-2 "
-                        >
-                            Search
-                        </button>
                     </div>
 
                     {/* Search End */}
@@ -176,7 +173,7 @@ const Dashboard = () => {
                     {/* Table */}
 
                     {/* pagination */}
-                    {pageInfo?.totalPages !== 1 && (
+                    {pageInfo?.totalPages > 1 && (
                         <div className="flex mt-6">
                             <button
                                 onClick={handlePreviousClick}
