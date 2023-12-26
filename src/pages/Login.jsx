@@ -77,8 +77,6 @@ const Login = () => {
                 const { success, message } = data;
 
                 if (success) {
-                    toast.success(message);
-
                     dispatch(
                         setUser({
                             user: data.user,
@@ -90,9 +88,10 @@ const Login = () => {
                             accessToken: data.accessToken,
                         })
                     );
+                    toast.success(message);
                     setTimeout(() => {
                         navigate("/", { replace: true });
-                    }, 3000);
+                    }, 1000);
                 } else {
                     toast.error(message);
                 }
@@ -148,7 +147,6 @@ const Login = () => {
                     </span>
                 </form>
             </div>
-
             <Toaster />
         </div>
     );

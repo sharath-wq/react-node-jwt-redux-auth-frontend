@@ -84,12 +84,13 @@ const Dashboard = () => {
                     </Link>
                     <h2 className="px-10 text-3xl font-bold absolute top-10">ADMIN DASHBOARD</h2>
 
-                    <button
+                    <Link
                         className="absolute top-6 right-6 px-4 rounded-full bg-gradient-to-r from-orange-400 to-yellow-400 text-white font-extrabold drop-shadow-xl py-2"
                         type="submit"
+                        to={`/admin/add`}
                     >
                         Add User
-                    </button>
+                    </Link>
 
                     {/* Search */}
 

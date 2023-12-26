@@ -1,5 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
-import { Login, SignUp, ProtectedRoute, IsLoggedIn, AdminRoute, Dashboard, Profile, User, Edit } from "./pages";
+import { Login, SignUp, ProtectedRoute, IsLoggedIn, AdminRoute, Dashboard, Profile, User, Edit, AddUser } from "./pages";
 import Home from "./pages/Home";
 
 const router = createBrowserRouter([
@@ -48,6 +48,14 @@ const router = createBrowserRouter([
         element: (
             <AdminRoute>
                 <Edit />
+            </AdminRoute>
+        ),
+    },
+    {
+        path: "/admin/add",
+        element: (
+            <AdminRoute>
+                <AddUser />
             </AdminRoute>
         ),
     },
