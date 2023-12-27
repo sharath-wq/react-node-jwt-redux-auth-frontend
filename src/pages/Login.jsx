@@ -3,9 +3,12 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Toaster, toast } from "react-hot-toast";
 import Gradient from "../components/gradients/Gradient";
+import { useDispatch } from "react-redux";
+import { setAccessToken, setUser } from "../features/user/userSlice";
 
 const Login = () => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const [inputValue, setInputValue] = useState({
         email: "",
         password: "",
@@ -74,6 +77,17 @@ const Login = () => {
                 const { success, message } = data;
 
                 if (success) {
+                    dispatch(
+                        setUser({
+                            user: data.user,
+                        })
+                    );
+
+                    dispatch(
+                        setAccessToken({
+                            accessToken: data.accessToken,
+                        })
+                    );
                     toast.success(message);
                     setTimeout(() => {
                         navigate("/", { replace: true });
@@ -133,7 +147,6 @@ const Login = () => {
                     </span>
                 </form>
             </div>
-
             <Toaster />
         </div>
     );
